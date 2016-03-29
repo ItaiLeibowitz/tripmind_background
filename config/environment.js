@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'tripmind-background',
     environment: environment,
-    baseURL: '/',
+    baseURL: '/background',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
