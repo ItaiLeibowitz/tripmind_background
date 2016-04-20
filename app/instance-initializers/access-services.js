@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import sanitizeHtml from 'npm:sanitize-html';
 
 
 export function initialize(applicationInstance) {
@@ -6,10 +7,11 @@ export function initialize(applicationInstance) {
 	let itemDetailsService = applicationInstance.lookup('service:item-details-service');
 	window.TripmindStore = store;
 	window.ItemDetailsService = itemDetailsService;
+	window.sanitizeHtml = sanitizeHtml;
 };
 
 
 export default {
-	name: 'access-store',
+	name: 'access-services',
 	initialize: initialize
 };
