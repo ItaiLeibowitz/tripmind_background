@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import sanitizeHtml from 'npm:sanitize-html';
 import promiseFromAjax from 'tripmind-background/mixins/promise_from_ajax';
+import Constants from 'tripmind-background/appconfig/constants';
 
 
 export function initialize(applicationInstance) {
@@ -10,6 +11,7 @@ export function initialize(applicationInstance) {
 	window.ItemDetailsService = itemDetailsService;
 	window.sanitizeHtml = sanitizeHtml;
 	window.promiseFromAjax = promiseFromAjax;
+	window.TmConstants = Constants;
 };
 
 
