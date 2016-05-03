@@ -13,10 +13,11 @@ export default Ember.Service.extend({
 			if (itemRecord && itemRecord.get('additionalInfoComplete')) resolve(itemRecord);
 			// Otherwise, we will get additional information with a delay to prevent overloading the quota
 			Ember.run.later(function () {
-				gmaps.placesService.getDetails({placeId: placeId}, function (result) {
+				gmaps.placesService.getDetails({placeId: placeId}, function (result, status) {
 					//console.log(result);
 					var item = store.peekRecord('item', placeId);
 					if (!item || !result){
+						//TODO: if the status is "over query limit" we could resend the request later
 						reject({message: "didn't find the item or its representation in the store"});
 					} else {
 						item.set('phone', result.international_phone_number);
