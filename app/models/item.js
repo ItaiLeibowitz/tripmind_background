@@ -79,6 +79,12 @@ var Item = DS.Model.extend(WithItemImage, WithAncestry, ModelWithDescs, {
 		})
 	}.property('updatedAt'),
 
+
+	save: function(options){
+		if (this.currentState.stateName.indexOf('deleted') == -1) this.set('updatedAt', moment().format("X"));
+		return this.super(options);
+	},
+
 	updatedAtDate: function(){
 		return moment(this.get('updatedAt'), "X").format('MM/DD/YYYY')
 	}.property('updatedAt'),
