@@ -189,6 +189,7 @@ var Constants = Ember.Object.create({
 		"electronics_store",
 		"embassy",
 		"florist",
+		"food",
 		"gym",
 		"hindu_temple",
 		"home_goods_store",
