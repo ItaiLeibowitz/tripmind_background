@@ -18,8 +18,9 @@ export default Ember.Service.extend({
 					var item = store.peekRecord('item', placeId);
 					if (!item || !result){
 						//TODO: if the status is "over query limit" we could resend the request later
-						reject({message: "didn't find the item or its representation in the store"});
+						reject({message: "didn't find the item or its representation in the store," +  status});
 					} else {
+						ga('send', 'event', 'googlePlaces', 'getDetails');
 						item.set('phone', result.international_phone_number);
 						if (!item.get('googleHours') && result.opening_hours) item.set('googleHours', result.opening_hours.periods);
 						if (!item.get('name')) item.set('name', result.name);
@@ -137,7 +138,7 @@ export default Ember.Service.extend({
 							return Constants.allowedLocationTypes.indexOf(r.types[0]) > -1;
 						});
 						var topResult = filteredResults[0];
-						var massagedResult = $.extend(topResult, {name: topResult.description});
+						var massagedResult = $.extend(topResult, {name: topResult.terms[0].value});// used to be: description, but this includes commas: NYC, NY, USA
 						var item = self.buildItemInfoFromResults({}, massagedResult);
 						var itemRecord = store.peekRecord('item', item.gmapsReference);
 						//if it doesn't exist, create it.
@@ -170,10 +171,14 @@ export default Ember.Service.extend({
 		if (result.types && result.types.length > 0) {
 			item.itemType = result.types[0];
 		}
+		if (result.rating) {
+			item.rating = result.rating;
+		}
 		item.gmapsReference = result.place_id;
 		item.address = result.formatted_address;
 		item.rating = result.rating;
 		if (!item.name) item.name = result.name;
+		if (!item.id) item.id = result.place_id;
 		return item
 	}
 
